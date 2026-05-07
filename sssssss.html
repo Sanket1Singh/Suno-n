@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sorry ❤️</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe4f0, #fff0f5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      min-height: 460px;
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(200, 50, 100, 0.15);
+      margin: 20px;
+    }
+
+    .slide { display: none; text-align: center; animation: fadeIn 0.5s ease; width: 100%; }
+    .slide.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .emoji-big { font-size: 68px; margin-bottom: 14px; display: block; }
+    .slide-title { font-size: 22px; font-weight: bold; color: #cc2255; margin-bottom: 10px; line-height: 1.4; }
+    .slide-text { font-size: 15px; color: #883355; line-height: 1.7; max-width: 380px; margin: 0 auto; }
+
+    .btn-row { display: flex; gap: 16px; margin-top: 28px; justify-content: center; flex-wrap: wrap; }
+
+    .btn-next {
+      font-size: 16px;
+      padding: 12px 28px;
+      background: #e0235a;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-next:hover { background: #c0184a; }
+    .btn-next:active { transform: scale(0.97); }
+
+    .btn-restart {
+      font-size: 14px;
+      padding: 10px 22px;
+      background: white;
+      color: #e0235a;
+      border: 2px solid #e0235a;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .btn-restart:hover { background: #fff0f5; }
+
+    /* YES / NO area */
+    .yesno-area {
+      position: relative;
+      width: 100%;
+      height: 170px;
+      margin-top: 20px;
+    }
+
+    .yes-btn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      padding: 14px 36px;
+      background: #1a9c3e;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 2;
+    }
+    .yes-btn:hover { background: #157a31; }
+
+    .no-btn {
+      position: absolute;
+      font-size: 15px;
+      padding: 11px 24px;
+      background: #e0235a;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      left: 62%;
+      top: 20%;
+      z-index: 2;
+      white-space: nowrap;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: left 0.12s ease, top 0.12s ease;
+    }
+
+    /* floating hearts */
+    .hearts {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 3s ease-in forwards;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-300px) rotate(20deg); }
+    }
+
+    .progress { display: flex; gap: 8px; margin-bottom: 20px; }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #f4a0c0;
+      transition: background 0.3s;
+    }
+    .dot.done { background: #e0235a; }
+
+    @media (max-width: 480px) {
+      .slide-title { font-size: 18px; }
+      .emoji-big { font-size: 54px; }
+      .yesno-area { height: 190px; }
+      .no-btn { font-size: 13px; padding: 9px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="mainBox">
+  <div class="hearts" id="heartsBox"></div>
+  <div class="progress" id="progressDots"></div>
+
+  <!-- Slide 0 -->
+  <div class="slide active" id="slide-0">
+    <span class="emoji-big">😔</span>
+    <div class="slide-title">Mujhe maaf karna Agr...</div>
+    <div class="slide-text">Aisa bahut kam hua h ki mai tumhe ache se nhi suna hun. Dil se sorry bolna chahta hun tumhe.</div>
+    <div class="btn-row"><button class="btn-next" onclick="nextSlide()">Sunogi kya? ➜</button></div>
+  </div>
+
+  <!-- Slide 1 -->
+  <div class="slide" id="slide-1">
+    <span class="emoji-big">💔</span>
+    <div class="slide-title">Mujhe nhi pata kaisa laga hoga tumhe...</div>
+    <div class="slide-text">Jo hua, aise treat nhi karna chahiye tha. Situation ko ache se handle karna chahiye tha. Dil se maafi maang rhe h.</div>
+    <div class="btn-row"><button class="btn-next" onclick="nextSlide()">Aage ➜</button></div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" id="slide-2">
+    <span class="emoji-big">🙏</span>
+    <div class="slide-title">Dil se maafi maangta hun</div>
+    <div class="slide-text">Koi bahana nahi dunga. Bas itna jaanta hun — tum mere liye bahut special ho, aur maine tumhe hurt kiya. Sorry.</div>
+    <div class="btn-row"><button class="btn-next" onclick="nextSlide()">Thik h ➜</button></div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" id="slide-3">
+    <span class="emoji-big">🌹</span>
+    <div class="slide-title">Tumhare bina adhoora hun mai</div>
+    <div class="slide-text">Ye pyaar sachcha hai re. Mai behtar banana chahta hun — tumhare liye, hamare liye. Pls samajhna mujhe jahan zarut ho .</div>
+    <div class="btn-row"><button class="btn-next" onclick="nextSlide()">Suno aur bhi ➜</button></div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" id="slide-4">
+    <span class="emoji-big">🥺</span>
+    <div class="slide-title">Promise karta hun...</div>
+    <div class="slide-text">Aage se tumhare dil ka khayal rakhne ki poori koshish rahegi. Tumhari khushi meri zimedari h. Aur tum mujhe correct karna bina soche bhi — qki tum meri khushi ho.</div>
+    <div class="btn-row"><button class="btn-next" onclick="nextSlide()">Last wala bhi dekh lo ➜</button></div>
+  </div>
+
+  <!-- Slide 5 — YES / NO -->
+  <div class="slide" id="slide-5">
+    <span class="emoji-big">❤️</span>
+    <div class="slide-title">Kya tum maaf karogi? 🥺</div>
+    <div class="slide-text">Teri ek "haan" se meri duniya wapas aa jaati h. Tumse baat karke lagta h ki apne aap se mil gaya — diffrent level ka sukun milta h...</div>
+
+    <div class="yesno-area" id="yesnoArea">
+      <button class="yes-btn" onclick="yesClicked()">Haan❤️</button>
+      <button class="no-btn" id="noBtn"
+        onmouseover="moveNoBtn()"
+        ontouchstart="moveNoBtn(); return false;">
+        Nahi 😒
+      </button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-restart" onclick="restartSlides()">Dobara dikhao 🔁</button>
+    </div>
+  </div>
+
+  <!-- Final -->
+  <div class="slide" id="slide-final">
+    <span class="emoji-big">🎉</span>
+    <div class="slide-title">Shukriya jaan! 😍</div>
+    <div class="slide-text">Ab koi galti nahi hogi. Tumhara pyaar hi meri zindagi hai. I love you! 💕💕</div>
+    <div class="btn-row"><button class="btn-restart" onclick="restartSlides()">Phir se ➜</button></div>
+  </div>
+</div>
+
+<script>
+  const totalSlides = 6;
+  let current = 0;
+
+  const dotsEl = document.getElementById('progressDots');
+  for (let i = 0; i < totalSlides; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' done' : '');
+    d.id = 'dot-' + i;
+    dotsEl.appendChild(d);
+  }
+
+  function nextSlide() {
+    document.getElementById('slide-' + current).classList.remove('active');
+    current++;
+    document.getElementById('slide-' + current).classList.add('active');
+    updateDots();
+    spawnHearts();
+  }
+
+  function yesClicked() {
+    document.getElementById('slide-' + current).classList.remove('active');
+    document.getElementById('slide-final').classList.add('active');
+    dotsEl.style.display = 'none';
+    spawnHearts(18);
+  }
+
+  function restartSlides() {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    current = 0;
+    document.getElementById('slide-0').classList.add('active');
+    dotsEl.style.display = 'flex';
+    for (let i = 0; i < totalSlides; i++) {
+      const d = document.getElementById('dot-' + i);
+      if (d) d.className = 'dot' + (i === 0 ? ' done' : '');
+    }
+    resetNoBtn();
+  }
+
+  function updateDots() {
+    for (let i = 0; i < totalSlides; i++) {
+      const d = document.getElementById('dot-' + i);
+      if (d) d.className = 'dot' + (i <= current ? ' done' : '');
+    }
+  }
+
+  function moveNoBtn() {
+    const area = document.getElementById('yesnoArea');
+    const btn  = document.getElementById('noBtn');
+    const aW   = area.offsetWidth  - btn.offsetWidth  - 10;
+    const aH   = area.offsetHeight - btn.offsetHeight - 10;
+    const x    = Math.max(0, Math.random() * aW);
+    const y    = Math.max(0, Math.random() * aH);
+    btn.style.left = x + 'px';
+    btn.style.top  = y + 'px';
+  }
+
+  function resetNoBtn() {
+    const btn = document.getElementById('noBtn');
+    btn.style.left = '62%';
+    btn.style.top  = '20%';
+  }
+
+  function spawnHearts(count = 8) {
+    const box    = document.getElementById('heartsBox');
+    const emojis = ['❤️','💕','🌸','💖','🥰','💝'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.className   = 'heart';
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        h.style.left  = Math.random() * 90 + '%';
+        h.style.bottom = '0';
+        h.style.animationDuration = (2 + Math.random() * 2) + 's';
+        box.appendChild(h);
+        setTimeout(() => h.remove(), 4500);
+      }, i * 150);
+    }
+  }
+</script>
+
+</body>
+</html>
